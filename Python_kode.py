@@ -7,7 +7,7 @@ wait = [0]
 
 
 # Creates arrivals in the given distribution
-arrival = np.array([])
+
 
 infile = open('ankomsttider.dat', 'r')
 b = []
@@ -20,13 +20,10 @@ for line in infile:
         
 infile.close()
 
-s1 = 0
-s2 = 0
+arrival = np.array([])
 
 for i in range(len(b)):
 
-    
-    
     x = float(b[i][0])
     y = float(b[i][1]) + 1
 
@@ -42,56 +39,46 @@ for i in range(len(b)):
     print((interval))
     arrival = np.concatenate((arrival,interval), axis=None)
     
+np.random.shuffle(arrival)
 print(arrival)
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # =============================================================================
-# interval_0_59 = np.random.randint(0, 60, int(planes//(200/44)))
-# interval_60_119 = np.random.randint(60, 120, int(planes//(200/34)))
-# interval_120_179 = np.random.randint(120, 180, int(planes//(200/27)))
-# interval_180_239 = np.random.randint(180, 240, int(planes//(200/22)))
-# interval_240_299 = np.random.randint(240, 300, int(planes//(200/16)))
-# interval_300_359 = np.random.randint(300, 360, int(planes//(200/13)))
-# interval_360_419 = np.random.randint(360, 420, int(planes//(200/10)))
-# interval_420_479 = np.random.randint(420, 480, int(planes//(200/8)))
-# interval_480_539 = np.random.randint(480, 540, int(planes//(200/6)))
-# interval_540_599 = np.random.randint(540, 600, int(planes//(200/5)))
-# interval_600_659 = np.random.randint(600, 660, int(planes//(200/4)))
-# interval_660_719 = np.random.randint(660, 720, int(planes//(200/3)))
-# interval_720_779 = np.random.randint(720, 780, int(planes//(200/2)))
-# interval_780_839 = np.random.randint(780, 840, int(planes//(200/2)))
-# interval_840_899 = np.random.randint(840, 900, int(planes//(200/1)))
-# interval_900_959 = np.random.randint(900, 960, int(planes//(200/1)))
-# interval_960_1019 = np.random.randint(960, 1020, int(planes//(200/1)))
-# interval_1020_1079 = np.random.randint(1020, 1080, 0)
-# interval_1080_1139 = np.random.randint(1080, 1140, int(planes//(200/1)))
-# interval_1140_1199 = np.random.randint(1140, 1200, 0)
 # 
-# arrival_test = [0 for i in range(planes)]
-# 
-# arrival_test[:44] = interval_0_59
-# arrival_test[43:78] = interval_60_119
-# arrival_test[77:105] = interval_120_179
-# arrival_test[104:127] = interval_180_239
 # =============================================================================
 
-#print(arrival_test)
+infile = open('landingstider.dat', 'r')
+c = []
+    
+for line in infile:
+    words = line.split(' ')
+    c.append(words)
+        
+infile.close()
+
+landing = np.array([])
+
+for i in range(len(b)):
+
+    x = float(b[i][0])
+    y = float(b[i][1]) + 1
+
+    if float(b[i][2]) == 0:
+        prob = 0
+    else:
+        prob = int(planes//(200/float(b[i][2])))
+    if prob == 0:
+        interval = [0]
+    else:
+        interval = np.random.randint(x, y, prob)
+        
+    print((interval))
+    landing = np.concatenate((landing,interval), axis=None)
+    
+np.random.shuffle(landing)
+print(landing)
+    
+
+
 # =============================================================================
 # for i in range(1, planes):
 #     V = (landing[i-1] - arrival[i]) + wait[i-1]
