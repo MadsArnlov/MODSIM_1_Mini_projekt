@@ -1,1 +1,3 @@
-Authors: Akla og Maja
+#Authors: Akla og Maja
+
+print(1+1)
