@@ -19,4 +19,4 @@ for i in range(1, planes):
 average_wait_time = sum(wait)/len(wait)
 total_wait_time = sum(wait)
 print(total_wait_time, '\n', average_wait_time)
-    
+    5
