@@ -8,6 +8,9 @@ wait = [0]
 landing = np.random.randint(0, 200, planes)
 arrival = np.random.randint(0, 200, planes)
 
+interval_0_59 = np.random.randint(0,59,44)
+interval_60_
+
 for i in range(1, planes):
     V = (landing[i-1] - arrival[i]) + wait[i-1]
     
