@@ -9,12 +9,15 @@ landing = np.random.randint(0, 200, planes)
 arrival = np.random.randint(0, 200, planes)
 
 infile = open('ankomsttider.dat', 'r')
-
+b = []
 for line in infile:
-    filestr = infile.read()
-    words = filestr.split(', ')
-    print(words)
-
+    a = infile.readline()
+    words = a.split(' ')
+    print(words[2])
+#    for i in range(len(words)):
+#        words[-1][i].strip()
+    b.append(words)
+print(b)
 # =============================================================================
 # interval_0_59 = np.random.randint(0, 60, int(planes//(200/44)))
 # interval_60_119 = np.random.randint(60, 120, int(planes//(200/34)))
