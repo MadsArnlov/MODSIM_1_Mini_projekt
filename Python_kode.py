@@ -5,19 +5,62 @@ lanes = 1
 t = 0
 wait = [0]
 
-landing = np.random.randint(0, 200, planes)
-arrival = np.random.randint(0, 200, planes)
+
+# Creates arrivals in the given distribution
+arrival = np.array([])
 
 infile = open('ankomsttider.dat', 'r')
 b = []
+
 for line in infile:
-    a = infile.readline()
-    words = a.split(' ')
-    print(words[2])
-#    for i in range(len(words)):
-#        words[-1][i].strip()
+        
+    words = line.split(' ')
+    
     b.append(words)
-print(b)
+        
+infile.close()
+
+s1 = 0
+s2 = 0
+
+for i in range(len(b)):
+
+    
+    
+    x = float(b[i][0])
+    y = float(b[i][1]) + 1
+
+    if float(b[i][2]) == 0:
+        prob = 0
+    else:
+        prob = int(planes//(200/float(b[i][2])))
+    if prob == 0:
+        interval = [0]
+    else:
+        interval = np.random.randint(x, y, prob)
+        
+    print((interval))
+    arrival = np.concatenate((arrival,interval), axis=None)
+    
+print(arrival)
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # =============================================================================
 # interval_0_59 = np.random.randint(0, 60, int(planes//(200/44)))
 # interval_60_119 = np.random.randint(60, 120, int(planes//(200/34)))
