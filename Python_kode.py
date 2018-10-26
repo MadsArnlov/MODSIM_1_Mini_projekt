@@ -12,3 +12,5 @@ for i in len(arrival):
         t += arrival[i]
 
 print(t)
+
+print("Vi skal på grillen")
