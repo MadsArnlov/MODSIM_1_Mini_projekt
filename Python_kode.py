@@ -5,19 +5,17 @@ lanes = 1
 t = 0
 wait = [0]
 
-
-# Creates arrivals in the given distribution
-
+# =============================================================================
+# Creates arrival times with the distribution from file 'ankomsttider.dat'.
+# =============================================================================
 
 infile = open('ankomsttider.dat', 'r')
 b = []
 
 for line in infile:
-        
     words = line.split(' ')
-    
     b.append(words)
-        
+
 infile.close()
 
 arrival = np.array([])
@@ -35,24 +33,22 @@ for i in range(len(b)):
         interval = [0]
     else:
         interval = np.random.randint(x, y, prob)
-        
-    #print((interval))
+
     arrival = np.concatenate((arrival, interval), axis=None)
-    
+
 np.random.shuffle(arrival)
-#print(arrival)
 
 # =============================================================================
-# 
+# Creates landing times with the distribution from file 'landingstider.dat'.
 # =============================================================================
 
 infile = open('landingstider.dat', 'r')
 b = []
-    
+
 for line in infile:
     words = line.split(' ')
     b.append(words)
-        
+
 infile.close()
 
 landing = np.array([])
@@ -70,23 +66,46 @@ for i in range(len(b)):
         interval = [0]
     else:
         interval = np.random.randint(x, y, prob)
-        
-#    print((interval))
+
     landing = np.concatenate((landing, interval), axis=None)
-    
+
 np.random.shuffle(landing)
-#print(landing)
-    
 
+# =============================================================================
+# Computes total and average wait time and the wait time for each plane.
+# =============================================================================
 
-for i in range(1, len(arrival)):
-    V = (landing[i-1] - arrival[i]) + wait[i-1]
-    
-    if V < 0:
-        V = 0
-    
-    wait.append(V)
+filled_lanes = [0 for lane in range(lanes)]
+time_lanes = [0 for lane in range(lanes)]
+wait_test = [0 for i in range(len(arrival))]
 
+for i in range(0, len(arrival)):
+    if time_lanes.index(0) >= 0:    # Hvis en lane er fri, vil tiden til den lane være 0 (start tilstand)
+        wait_time = 0
+        time = landing[i]
+    else:
+        if arrival <= max(time_lanes):
+            wait_time = 0
+            time = landing[i]
+            time_lanes[time_lanes.indx(max(time_lanes))] = time
+    wait_test[i] = wait_time
+    time_lanes[time_lanes.index(0)] = time
+
+filled_lanes[filled_lanes.index(0)] = 1
+
+#for i in range(1, len(arrival)):
+#    W = (landing[i-1] - arrival[i]) + wait[i-1]
+#
+#    if W < 0:
+#        W = 0
+#
+#    wait.append(W)
+#
 average_wait_time = sum(wait)/len(wait)
 total_wait_time = sum(wait)
 print(total_wait_time, '\n', average_wait_time)
+
+# =============================================================================
+# Keeping track of filled lanes.
+# =============================================================================
+
