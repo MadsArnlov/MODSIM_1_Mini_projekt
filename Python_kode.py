@@ -13,6 +13,4 @@ for i in len(arrival):
 
 print(t)
 
-print("Vi skal på grillen")print("Vi skal på grillen")
-=======
 print("This is a merge-test")
