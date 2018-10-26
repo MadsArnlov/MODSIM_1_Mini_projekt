@@ -1,3 +1,3 @@
 #Authors: Akla og Maja
 
-print("This is a test")
+print(1+1)
