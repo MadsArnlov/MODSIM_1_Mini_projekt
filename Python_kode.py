@@ -12,3 +12,5 @@ for i in len(arrival):
         t += arrival[i]
 
 print(t)
+
+print("This is a merge-test")
