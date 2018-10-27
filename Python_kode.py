@@ -80,6 +80,7 @@ time_lanes = [0 for lane in range(lanes)]
 wait_test = [0 for i in range(len(arrival))]
 
 for i in range(0, len(arrival)):
+    ### Note ### Hvad skal den gøre? Returnerer den ikke det index som har værdien 0?
     if time_lanes.index(0) >= 0:    # Hvis en lane er fri, vil tiden til den lane være 0 (start tilstand)
         wait_time = 0
         time = landing[i]
@@ -90,6 +91,7 @@ for i in range(0, len(arrival)):
             time_lanes[time_lanes.indx(max(time_lanes))] = time
     wait_test[i] = wait_time
     time_lanes[time_lanes.index(0)] = time
+    ### Note ### Der forsøges at sætte et index til float. Tror ikke den går
 
 filled_lanes[filled_lanes.index(0)] = 1
 
