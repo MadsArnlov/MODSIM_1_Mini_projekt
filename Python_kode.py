@@ -85,7 +85,7 @@ for i in range(0, len(arrival)):
         wait_time = 0
         time = landing[i]
         time_lanes[time_lanes.index(0)] = time
-    elif arrival[i] <= max(time_lanes):
+    elif arrival[i] >= max(time_lanes):
         wait_time = 0
         time = landing[i]
         time_lanes[time_lanes.index(max(time_lanes))] = time
@@ -97,15 +97,17 @@ for i in range(0, len(arrival)):
     ### Note ### Der forsøges at sætte et index til float. Tror ikke den går
 
 filled_lanes[filled_lanes.index(0)] = 1
+print(sum(wait_test), '\n', sum(wait_test)/len(wait_test))
 
-#for i in range(1, len(arrival)):
-#    W = (landing[i-1] - arrival[i]) + wait[i-1]
-#
-#    if W < 0:
-#        W = 0
-#
-#    wait.append(W)
-#
+
+for i in range(1, len(arrival)):
+    W = (landing[i-1] - arrival[i]) + wait[i-1]
+
+    if W < 0:
+        W = 0
+
+    wait.append(W)
+
 average_wait_time = sum(wait)/len(wait)
 total_wait_time = sum(wait)
 print(total_wait_time, '\n', average_wait_time)
