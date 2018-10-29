@@ -9,33 +9,25 @@ wait = [0]
 # Creates arrival times with the distribution from file 'ankomsttider.dat'.
 # =============================================================================
 
-b = np.loadtxt('interarrival.dat', dtype = np.int, delimiter=',')
-
-#with open('ankomsttider.dat') as infile:
-#    b = []
-#    
-#    for line in infile:
-#        words = line.split(' ')
-#        b.append(words)
-
+arrivals = np.loadtxt('interarrival.dat', dtype = int, delimiter = ',')
 
 arrival = np.array([])
 
-for i in range(len(b)):
+for line in arrivals:
 
-    x = float(b[i][0])
-    y = float(b[i][1]) + 1
+    x = line[0]
+    y = line[1] + 1
 
-    if float(b[i][2]) == 0:
+    if line[2] == 0:
         prob = 0
     else:
-        prob = int(planes//(200/float(b[i][2])))
+        prob = int(planes // (arrivals.sum(axis=0)[2] / line[2]))
     if prob == 0:
         interval = [0]
     else:
         interval = np.random.randint(x, y, prob)
 
-    arrival = np.concatenate((arrival, interval), axis=None)
+    arrival = np.concatenate((arrival, interval), axis = None)
 
 np.random.shuffle(arrival)
 
@@ -43,32 +35,25 @@ np.random.shuffle(arrival)
 # Creates landing times with the distribution from file 'landingstider.dat'.
 # =============================================================================
 
-infile = open('landingstider.dat', 'r')
-b = []
-
-for line in infile:
-    words = line.split(' ')
-    b.append(words)
-
-infile.close()
+landings = np.loadtxt('duration.dat', dtype = int, delimiter = ',')
 
 landing = np.array([])
 
-for i in range(len(b)):
+for line in landings:
 
-    x = float(b[i][0])
-    y = float(b[i][1]) + 1
+    x = line[0]
+    y = line[1] + 1
 
-    if float(b[i][2]) == 0:
+    if line[2] == 0:
         prob = 0
     else:
-        prob = int(planes//(200/float(b[i][2])))
+        prob = int(planes // (landings.sum(axis=0)[2] / line[2]))
     if prob == 0:
         interval = [0]
     else:
         interval = np.random.randint(x, y, prob)
 
-    landing = np.concatenate((landing, interval), axis=None)
+    landing = np.concatenate((landing, interval), axis = None)
 
 np.random.shuffle(landing)
 
@@ -110,8 +95,3 @@ for i in range(1, len(arrival)):
 average_wait_time = sum(wait)/len(wait)
 total_wait_time = sum(wait)
 print(total_wait_time, '\n', average_wait_time)
-
-# =============================================================================
-# Keeping track of filled lanes.
-# =============================================================================
-
