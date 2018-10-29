@@ -9,14 +9,15 @@ wait = [0]
 # Creates arrival times with the distribution from file 'ankomsttider.dat'.
 # =============================================================================
 
-infile = open('ankomsttider.dat', 'r')
-b = []
+b = np.loadtxt('interarrival.dat', dtype = np.int, delimiter=',')
 
-for line in infile:
-    words = line.split(' ')
-    b.append(words)
+#with open('ankomsttider.dat') as infile:
+#    b = []
+#    
+#    for line in infile:
+#        words = line.split(' ')
+#        b.append(words)
 
-infile.close()
 
 arrival = np.array([])
 
