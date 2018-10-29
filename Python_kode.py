@@ -1,9 +1,7 @@
 import numpy as np
 
 planes = 200
-lanes = 1
-t = 0
-wait = [0]
+lanes = 2
 
 # =============================================================================
 # Creates arrival times with the distribution from file 'ankomsttider.dat'.
@@ -61,27 +59,24 @@ np.random.shuffle(landing)
 # Computes total and average wait time and the wait time for each plane.
 # =============================================================================
 
-time_lanes = [0 for lane in range(lanes)]
-wait_test = [0 for i in range(len(arrival))]
+queWait = [0 for i in range(lanes)]
+laneWait = []
 
-for i in range(0, len(arrival)):
-    if 0 in time_lanes:    # Hvis en lane er fri, vil tiden til den lane være 0 (start tilstand)
-        wait_time = 0
-        time = landing[i]
-        time_lanes[time_lanes.index(0)] = time
-    elif arrival[i] >= max(time_lanes):
-        wait_time = 0
-        time = landing[i]
-        time_lanes[time_lanes.index(max(time_lanes))] = time
-    else:
-        wait_time = landing[i - 1] - arrival[i] + wait_test[i - 1]
-        if wait_time < 0:
-            wait_time = 0
-        time_lanes[0] = landing[i]
-    wait_test[i] = wait_time
+for i in range(len(arrival)):
+        queWait += -arrival[i]
+        
+        for j in range(len(queWait)):
+            
+            if queWait[j] < 0:    
+                queWait[j] = 0
+                
+        laneWait.append(min(queWait)) 
+        queWait += landing[i]
 
-print(sum(wait_test), '\n', sum(wait_test)/len(wait_test))
-
+print(sum(laneWait))
+        
+        
+wait = [0]
 
 for i in range(1, len(arrival)):
     W = (landing[i-1] - arrival[i]) + wait[i-1]
