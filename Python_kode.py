@@ -71,7 +71,7 @@ for i in range(len(arrival)):
                 queWait[j] = 0
                 
         laneWait.append(min(queWait)) 
-        queWait += landing[i]
+        queWait[queWait.argmin()] += landing[i]
 
 print(sum(laneWait))
         
