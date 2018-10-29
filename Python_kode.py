@@ -78,6 +78,7 @@ for i in range(0, len(arrival)):
         wait_time = landing[i - 1] - arrival[i] + wait_test[i - 1]
         if wait_time < 0:
             wait_time = 0
+        time_lanes[0] = landing[i]
     wait_test[i] = wait_time
     ### Note ### Der forsøges at sætte et index til float. Tror ikke den går
 
