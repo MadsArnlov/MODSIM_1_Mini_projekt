@@ -75,7 +75,6 @@ np.random.shuffle(landing)
 # Computes total and average wait time and the wait time for each plane.
 # =============================================================================
 
-filled_lanes = [0 for lane in range(lanes)]
 time_lanes = [0 for lane in range(lanes)]
 wait_test = [0 for i in range(len(arrival))]
 
@@ -96,7 +95,6 @@ for i in range(0, len(arrival)):
     wait_test[i] = wait_time
     ### Note ### Der forsøges at sætte et index til float. Tror ikke den går
 
-filled_lanes[filled_lanes.index(0)] = 1
 print(sum(wait_test), '\n', sum(wait_test)/len(wait_test))
 
 
