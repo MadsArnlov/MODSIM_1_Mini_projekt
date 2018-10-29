@@ -28,10 +28,15 @@ def arrivalTimes(planes):
         x = line[0]
         y = line[1] + 1
     
+        # Makes sure no division by 0
         if line[2] == 0:
             prob = 0
+        
+        # Calculates the probability of a plane arriving in a given timespace
         else:
             prob = int(planes // (arrivals.sum(axis=0)[2] / line[2]))
+        
+        # Makes sure no division by 0
         if prob == 0:
             interval = [0]
         else:
@@ -69,11 +74,16 @@ def landingTimes(planes):
     
         x = line[0]
         y = line[1] + 1
-    
-        if line[2] == 0:
+        
+        # Makes sure no division by 0
+        if line[2] == 0: 
             prob = 0
+        
+        # Calculates the probability of a plane landing in a given timespace
         else:
             prob = int(planes // (landings.sum(axis=0)[2] / line[2]))
+        
+        # Makes sure no division by 0
         if prob == 0:
             interval = [0]
         else:
@@ -102,19 +112,24 @@ def waitTime(lanes, arrivalTimes, landingTimes):
         Array containing the landing times of the planes
     """
     
-    queWait = [0 for i in range(lanes)]
+    queWait = [0 for i in range(lanes)] # Keeps track of avalible lanes
     laneWait = []
     
-    for i in range(len(arrivalTimes)):
+    # Loops through all planes
+    for i in range(len(arrivalTimes)): 
             queWait += -arrivalTimes[i]
             
-            for j in range(len(queWait)):
+            # Makes sure no negative wait time
+            for j in range(len(queWait)): 
                 
                 if queWait[j] < 0:    
                     queWait[j] = 0
                     
+            # Keeps track of the time waited
             laneWait.append(min(queWait)) 
-            queWait[queWait.argmin()] += landingTimes[i]
+            
+            # Updates the lane that is currently in use with the new waittime
+            queWait[queWait.argmin()] += landingTimes[i] 
     
     print("Total wait time:", sum(laneWait), "seconds")
     print("Average wait time:", sum(laneWait)/len(laneWait), "seconds")
