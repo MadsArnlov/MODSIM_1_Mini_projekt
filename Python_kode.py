@@ -65,7 +65,6 @@ time_lanes = [0 for lane in range(lanes)]
 wait_test = [0 for i in range(len(arrival))]
 
 for i in range(0, len(arrival)):
-    ### Note ### Hvad skal den gøre? Returnerer den ikke det index som har værdien 0?
     if 0 in time_lanes:    # Hvis en lane er fri, vil tiden til den lane være 0 (start tilstand)
         wait_time = 0
         time = landing[i]
@@ -80,7 +79,6 @@ for i in range(0, len(arrival)):
             wait_time = 0
         time_lanes[0] = landing[i]
     wait_test[i] = wait_time
-    ### Note ### Der forsøges at sætte et index til float. Tror ikke den går
 
 print(sum(wait_test), '\n', sum(wait_test)/len(wait_test))
 
