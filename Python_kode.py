@@ -1,6 +1,6 @@
 import numpy as np
 
-year = 1
+year = 15
 planes = int(200*1.05**year)
 
 def arrivalTimes(planes):
@@ -25,14 +25,14 @@ def arrivalTimes(planes):
     
     probList = []
     nrPlanes = arrivals.sum(axis=0)[2]
-    maxTime = arrivals[-1][1]+1
+    maxTime = 0 #int((arrivals[-1][1]+1)*(1/1.05**year))
     
     
     for line in arrivals:
-        interval = line[1]-line[0]+1
+        interval = int((line[1]-line[0]+1)*(1/1.05**year))
         prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
         probList += prob
-        
+        maxTime += interval
     return np.random.choice(maxTime, planes, p=probList)
     
 
