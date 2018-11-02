@@ -1,5 +1,7 @@
 import numpy as np
 
+year = 1
+planes = int(200*1.05**year)
 
 def arrivalTimes(planes):
     
@@ -21,6 +23,13 @@ def arrivalTimes(planes):
     
     arrivals = np.loadtxt('interarrival.dat', dtype = int, delimiter = ',')
     
+    a = []
+    
+    for line in arrivals:
+        mylist = [(line[2]/200)/60 for i in range(60)]
+        a += mylist
+    return np.random.choice(1200, planes, p=a)
+    """
     arrival = np.array([])
     
     for line in arrivals:
@@ -46,7 +55,7 @@ def arrivalTimes(planes):
     
     np.random.shuffle(arrival)
     return(arrival)
-
+"""
 
 def landingTimes(planes):
     
@@ -67,9 +76,14 @@ def landingTimes(planes):
     """
     
     landings = np.loadtxt('duration.dat', dtype = int, delimiter = ',')
+    a = []
     
-    landing = np.array([])
-    
+    for line in landings:
+        mylist = [(line[2]/200)/30 for i in range(30)]
+        a += mylist
+    return np.random.choice(300, planes, p=a)
+
+"""
     for line in landings:
     
         x = line[0]
@@ -93,7 +107,7 @@ def landingTimes(planes):
     
     np.random.shuffle(landing)
     return(landing)
-
+"""
 
 def waitTime(lanes, arrivalTimes, landingTimes):
     
@@ -133,12 +147,13 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     
     print("Total wait time:", sum(laneWait), "seconds")
     print("Average wait time:", sum(laneWait)/len(laneWait), "seconds")
+    print("Maximum wait time:", max(laneWait), "seconds")
     
     return(laneWait)
         
 arrival = arrivalTimes(200)
 landing = landingTimes(200)
 
-print("Length of array 'arrival':", len(arrival))
-print("Length of array 'landing':", len(landing))    
+#print("Length of array 'arrival':", len(arrival))
+#print("Length of array 'landing':", len(landing))    
     
