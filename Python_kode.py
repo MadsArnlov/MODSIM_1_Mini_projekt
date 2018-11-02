@@ -23,39 +23,18 @@ def arrivalTimes(planes):
     
     arrivals = np.loadtxt('interarrival.dat', dtype = int, delimiter = ',')
     
-    a = []
+    probList = []
+    nrPlanes = arrivals.sum(axis=0)[2]
+    maxTime = arrivals[-1][1]+1
+    
     
     for line in arrivals:
-        mylist = [(line[2]/200)/60 for i in range(60)]
-        a += mylist
-    return np.random.choice(1200, planes, p=a)
-    """
-    arrival = np.array([])
-    
-    for line in arrivals:
-    
-        x = line[0]
-        y = line[1] + 1
-    
-        # Makes sure no division by 0
-        if line[2] == 0:
-            prob = 0
+        interval = line[1]-line[0]+1
+        prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
+        probList += prob
         
-        # Calculates the probability of a plane arriving in a given timespace
-        else:
-            prob = int(planes // (arrivals.sum(axis=0)[2] / line[2]))
-        
-        # Makes sure no division by 0
-        if prob == 0:
-            interval = [0]
-        else:
-            interval = np.random.randint(x, y, prob)
+    return np.random.choice(maxTime, planes, p=probList)
     
-        arrival = np.concatenate((arrival, interval), axis = None)
-    
-    np.random.shuffle(arrival)
-    return(arrival)
-"""
 
 def landingTimes(planes):
     
@@ -76,38 +55,18 @@ def landingTimes(planes):
     """
     
     landings = np.loadtxt('duration.dat', dtype = int, delimiter = ',')
-    a = []
+    probList = []
+    nrPlanes = landings.sum(axis=0)[2]
+    maxTime = landings[-1][1]+1
+    
     
     for line in landings:
-        mylist = [(line[2]/200)/30 for i in range(30)]
-        a += mylist
-    return np.random.choice(300, planes, p=a)
+        interval = line[1]-line[0]+1
+        prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
+        probList += prob
+        
+    return np.random.choice(maxTime, planes, p=probList)
 
-"""
-    for line in landings:
-    
-        x = line[0]
-        y = line[1] + 1
-        
-        # Makes sure no division by 0
-        if line[2] == 0: 
-            prob = 0
-        
-        # Calculates the probability of a plane landing in a given timespace
-        else:
-            prob = int(planes // (landings.sum(axis=0)[2] / line[2]))
-        
-        # Makes sure no division by 0
-        if prob == 0:
-            interval = [0]
-        else:
-            interval = np.random.randint(x, y, prob)
-    
-        landing = np.concatenate((landing, interval), axis = None)
-    
-    np.random.shuffle(landing)
-    return(landing)
-"""
 
 def waitTime(lanes, arrivalTimes, landingTimes):
     
@@ -124,6 +83,11 @@ def waitTime(lanes, arrivalTimes, landingTimes):
         Array containing the arrival times of the planes
     landingTimes : ndarray
         Array containing the landing times of the planes
+        
+    Returns
+    ----------
+    out : string
+        Prints the Total, Average and Maximum wait time
     """
     
     queWait = [0 for i in range(lanes)] # Keeps track of avalible lanes
@@ -150,10 +114,5 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     print("Maximum wait time:", max(laneWait), "seconds")
     
     return(laneWait)
-        
-arrival = arrivalTimes(200)
-landing = landingTimes(200)
 
-#print("Length of array 'arrival':", len(arrival))
-#print("Length of array 'landing':", len(landing))    
-    
+waitTime(3, arrivalTimes(200), landingTimes(200))
