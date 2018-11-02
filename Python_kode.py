@@ -109,10 +109,25 @@ def waitTime(lanes, arrivalTimes, landingTimes):
             # Updates the lane that is currently in use with the new waittime
             queWait[queWait.argmin()] += landingTimes[i] 
     
-    print("Total wait time:", sum(laneWait), "seconds")
-    print("Average wait time:", sum(laneWait)/len(laneWait), "seconds")
-    print("Maximum wait time:", max(laneWait), "seconds")
+    #print("Total wait time:", sum(laneWait), "seconds")
+    #print("Average wait time:", sum(laneWait)/len(laneWait), "seconds")
+    #print("Maximum wait time:", max(laneWait), "seconds")
     
     return(laneWait)
 
-waitTime(3, arrivalTimes(200), landingTimes(200))
+totalWait = 0
+averageWait = 0
+maxWait = 0
+N = 1000
+
+for n in range(N):
+    waitLane = waitTime(1, arrivalTimes(planes), landingTimes(planes))
+    waitTotal = sum(waitLane)
+    waitAvg = sum(waitLane)/len(waitLane)
+    waitMax = max(waitLane)
+    totalWait += waitTotal
+    averageWait += waitAvg
+    maxWait += waitMax
+print(totalWait/N)
+print(averageWait/N)
+print(maxWait/N)
