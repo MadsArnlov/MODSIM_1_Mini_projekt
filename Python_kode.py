@@ -1,9 +1,6 @@
 import numpy as np
 
-year = 15
-planes = int(200*1.05**year)
-
-def arrivalTimes(planes):
+def arrivalTimes(planes, year):
     
     """
     arrivalTimes(planes)
@@ -25,7 +22,7 @@ def arrivalTimes(planes):
     
     probList = []
     nrPlanes = arrivals.sum(axis=0)[2]
-    maxTime = 0 #int((arrivals[-1][1]+1)*(1/1.05**year))
+    maxTime = 0 
     
     
     for line in arrivals:
@@ -111,22 +108,29 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     
     return(laneWait)
 
-def simulations(N):
+def simulations(N, lanes=1, year=1):
 
     totalWait = 0
     averageWait = 0
     maxWait = 0
+    planes = int(200*1.05**year)
     
     for n in range(N):
-        waitLane = waitTime(1, arrivalTimes(planes), landingTimes(planes))
+        waitLane = waitTime(lanes, arrivalTimes(planes, year), landingTimes(planes))
         waitTotal = sum(waitLane)
         waitAvg = sum(waitLane)/len(waitLane)
         waitMax = max(waitLane)
         totalWait += waitTotal
         averageWait += waitAvg
         maxWait += waitMax
-    print(totalWait/N)
-    print(averageWait/N)
-    print(maxWait/N)
+        
+    if totalWait/N <= 86400:
+        print("Total Ventetid:", totalWait/N, "sekunder")
+        print("Gennemsnitlig Ventetid:", averageWait/N, "sekunder")
+        print("Maksimal Ventetid:", maxWait/N, "sekunder")
+    else:
+        print("Kan ikke nå alle fly på en dag")
+        print("Timer for meget", ((totalWait/N)-86400)/60/60)
 
-simulations(1000)
+
+simulations(1000, lanes=1, year=8)
