@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+import time
 from matplotlib import pyplot as plt
 
 def arrivalTimes(planes, year):
@@ -180,5 +182,7 @@ def plotGrowth(years, sims=50, lanes=1, style="avg"):
     else:
         print("Something went wrong! Try the command again")
         
-plotGrowth(5, style="sum")
+
+plotGrowth(sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3])
+
     
