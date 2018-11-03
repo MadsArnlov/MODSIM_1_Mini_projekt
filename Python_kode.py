@@ -194,6 +194,8 @@ def plotGrowth(years, sims, lanes, timeStyle):
         
 if sys.argv[1] == "?":
     print("""
+Either prints the wait time data for one year if plot=True or saves a plot of the growth over multiple years
+
 Parameters
 ----------
 Years: int
