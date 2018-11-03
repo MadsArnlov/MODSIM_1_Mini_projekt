@@ -118,26 +118,31 @@ def simulations(year, N, lanes, willPrint=False):
     maxWait = 0
     planes = int(200*1.05**year)
     
-    for n in range(N):
-        waitLane = waitTime(lanes, arrivalTimes(planes, year), landingTimes(planes))
-        waitTotal = sum(waitLane)
-        waitAvg = sum(waitLane)/len(waitLane)
-        waitMax = max(waitLane)
-        totalWait += waitTotal
-        averageWait += waitAvg
-        maxWait += waitMax
+    try:
+        for n in range(N):
+            waitLane = waitTime(lanes, arrivalTimes(planes, year), landingTimes(planes))
+            waitTotal = sum(waitLane)
+            waitAvg = sum(waitLane)/len(waitLane)
+            waitMax = max(waitLane)
+            totalWait += waitTotal
+            averageWait += waitAvg
+            maxWait += waitMax
+            
+        if willPrint == True:    
+            
+            if totalWait/N <= 86400:
+                print("Total Ventetid: {:.2f} sekunder".format(totalWait/N))
+                print("Gennemsnitlig Ventetid: {:.2f} sekunder".format(averageWait/N))
+                print("Maksimal Ventetid: {:.2f} sekunder".format(maxWait/N))
+            else:
+                print("Kan ikke nå alle fly på en dag")
+                print("Timer for meget", ((totalWait/N)-86400)/60/60)
         
-    if willPrint == True:    
-        
-        if totalWait/N <= 86400:
-            print("Total Ventetid:", totalWait/N, "sekunder")
-            print("Gennemsnitlig Ventetid:", averageWait/N, "sekunder")
-            print("Maksimal Ventetid:", maxWait/N, "sekunder")
-        else:
-            print("Kan ikke nå alle fly på en dag")
-            print("Timer for meget", ((totalWait/N)-86400)/60/60)
-        
-    return(totalWait/N, averageWait/N, maxWait/N)
+        return(totalWait/N, averageWait/N, maxWait/N)
+    
+    except:
+        print("Can't calculate that many years in the future. Please try again with a smaller number")
+
 
 def plotGrowth(years, sims, lanes, timeStyle):
     
@@ -207,8 +212,13 @@ Plot : bool
 
 Usage:
 >>>name.py Years Simumlations Lanes TimeStyle/Plot
-Example:
->>>Python_code.py 20 35 2 total""")
+
+Example 1:
+>>>Python_code.py 20 35 2 total
+
+Example 2:
+>>>Python_code.py 20 35 2 True
+""")
 
 elif eval(sys.argv[4]) == True:
     try:
