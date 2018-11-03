@@ -137,12 +137,48 @@ def simulations(N, lanes=1, year=1, willPrint=False):
         
     return(totalWait/N, averageWait/N, maxWait/N)
 
-def plotGrowth(years, sims=50, lanes=1, style=1):
-    a = []
-    for i in range(years):
-        a.append(simulations(sims, lanes, year=i)[style])
+def plotGrowth(years, sims=50, lanes=1, style="avg"):
     
-    plt.plot(a, 'bx')
+    data = []
     
-plotGrowth(10)
+    if style == "average" or style == "avg":
+        
+        for i in range(years):
+            data.append(simulations(sims, lanes, year=i)[1])
+   
+        plt.figure(figsize=(12,9))
+        plt.plot(data, 'o-')
+        plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
+        plt.xlabel("Years")
+        plt.ylabel("Average wait in seconds")
+        plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))
+    
+    elif style == "maximum" or style == "max":
+        
+        for i in range(years):
+            data.append(simulations(sims, lanes, year=i)[2])
+       
+        plt.figure(figsize=(12,9))
+        plt.plot(data, 'o-')
+        plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
+        plt.xlabel("Years")
+        plt.ylabel("Max wait in seconds")
+        plt.savefig("SimMax_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))    
+    
+    elif style == "total" or style == "sum":
+        
+        for i in range(years):
+            data.append(simulations(sims, lanes, year=i)[0])
+        
+        plt.figure(figsize=(12,9))
+        plt.plot(data, 'o-')
+        plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
+        plt.xlabel("Years")
+        plt.ylabel("Total wait in seconds")
+        plt.savefig("SimTotal_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))  
+    
+    else:
+        print("Something went wrong! Try the command again")
+        
+plotGrowth(5, style="sum")
     
