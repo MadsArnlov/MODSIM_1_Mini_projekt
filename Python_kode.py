@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib import pyplot as plt
 
 def arrivalTimes(planes, year):
     
@@ -108,7 +109,7 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     
     return(laneWait)
 
-def simulations(N, lanes=1, year=1):
+def simulations(N, lanes=1, year=1, willPrint=False):
 
     totalWait = 0
     averageWait = 0
@@ -124,13 +125,24 @@ def simulations(N, lanes=1, year=1):
         averageWait += waitAvg
         maxWait += waitMax
         
-    if totalWait/N <= 86400:
-        print("Total Ventetid:", totalWait/N, "sekunder")
-        print("Gennemsnitlig Ventetid:", averageWait/N, "sekunder")
-        print("Maksimal Ventetid:", maxWait/N, "sekunder")
-    else:
-        print("Kan ikke nå alle fly på en dag")
-        print("Timer for meget", ((totalWait/N)-86400)/60/60)
+    if willPrint == True:    
+        
+        if totalWait/N <= 86400:
+            print("Total Ventetid:", totalWait/N, "sekunder")
+            print("Gennemsnitlig Ventetid:", averageWait/N, "sekunder")
+            print("Maksimal Ventetid:", maxWait/N, "sekunder")
+        else:
+            print("Kan ikke nå alle fly på en dag")
+            print("Timer for meget", ((totalWait/N)-86400)/60/60)
+        
+    return(totalWait/N, averageWait/N, maxWait/N)
 
-
-simulations(1000, lanes=1, year=8)
+def plotGrowth(years, sims=50, lanes=1, style=1):
+    a = []
+    for i in range(years):
+        a.append(simulations(sims, lanes, year=i)[style])
+    
+    plt.plot(a, 'bx')
+    
+plotGrowth(10)
+    
