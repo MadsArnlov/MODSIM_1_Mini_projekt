@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-import time
+import os
 from matplotlib import pyplot as plt
 
 def arrivalTimes(planes, year):
@@ -87,7 +87,7 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     Returns
     ----------
     out : string
-        Prints the Total, Average and Maximum wait time
+        Returns the Total wait time
     """
     
     queWait = [0 for i in range(lanes)] # Keeps track of avalible lanes
@@ -111,7 +111,7 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     
     return(laneWait)
 
-def simulations(N, lanes=1, year=1, willPrint=False):
+def simulations(year, N, lanes, willPrint=False):
 
     totalWait = 0
     averageWait = 0
@@ -139,40 +139,43 @@ def simulations(N, lanes=1, year=1, willPrint=False):
         
     return(totalWait/N, averageWait/N, maxWait/N)
 
-def plotGrowth(years, sims=50, lanes=1, style="avg"):
+def plotGrowth(years, sims, lanes, timeStyle):
     
     data = []
     
-    if style == "average" or style == "avg":
+    if timeStyle == "average" or timeStyle == "avg":
         
         for i in range(years):
             data.append(simulations(sims, lanes, year=i)[1])
    
         plt.figure(figsize=(12,9))
+        plt.axhline(y=36400, color="red")
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
         plt.xlabel("Years")
         plt.ylabel("Average wait in seconds")
         plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))
     
-    elif style == "maximum" or style == "max":
+    elif timeStyle == "maximum" or timeStyle == "max":
         
         for i in range(years):
             data.append(simulations(sims, lanes, year=i)[2])
        
         plt.figure(figsize=(12,9))
+        plt.axhline(y=36400, color="red")
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
         plt.xlabel("Years")
         plt.ylabel("Max wait in seconds")
         plt.savefig("SimMax_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))    
     
-    elif style == "total" or style == "sum":
+    elif timeStyle == "total" or timeStyle == "sum":
         
         for i in range(years):
             data.append(simulations(sims, lanes, year=i)[0])
         
         plt.figure(figsize=(12,9))
+        plt.axhline(y=36400, color="red")
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years,sims,lanes))
         plt.xlabel("Years")
@@ -180,9 +183,44 @@ def plotGrowth(years, sims=50, lanes=1, style="avg"):
         plt.savefig("SimTotal_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))  
     
     else:
-        print("Something went wrong! Try the command again")
+        print("'data' not permitted. Use average, maximum or total")
+
         
         
-plotGrowth(int(sys.argv[1]), int(sys.argv[2]))
+if sys.argv[1] == "?":
+    print("""
+Parameters
+----------
+Years: int
+    What year the calculation should terminate
+Simulations : int
+    Number of simulations to be run for each year.
+Lanes : int
+    Number of lanes to be simulated.
+TimeStyle : str
+    What type of data to be plotted along the y axis.
+    Total => Total wait time
+    Average => Average wait time
+    Maximum => Maximum wait time
+Plot : bool
+    Defines whether or not to plot the data or to return a single year  
+
+Usage:
+>>>name.py Years Simumlations Lanes TimeStyle/Plot
+Example:
+>>>Python_code.py 20 35 2 total""")
+
+elif eval(sys.argv[4]) == True:
+    try:
+        simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
+    except:
+        print("Something went wrong! Please try the command again")
+else:
+    try:
+
+        plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
+        print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
+    except:
+        print("Something went wrong! Please try the command again")
 
     
