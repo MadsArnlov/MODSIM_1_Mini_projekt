@@ -183,6 +183,6 @@ def plotGrowth(years, sims=50, lanes=1, style="avg"):
         print("Something went wrong! Try the command again")
         
 
-plotGrowth(sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3])
+plotGrowth(sys.argv[0])
 
     
