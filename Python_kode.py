@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 def arrivalTimes(planes, year):
     
     """
-    arrivalTimes(planes)
+    arrivalTimes(planes, years)
     
     Returns arrival times for planes with the distribution from file 'interarrival.dat'
     
@@ -14,6 +14,8 @@ def arrivalTimes(planes, year):
     ----------
     planes : int
         Number of planes trying to land
+    year : int
+        What year the calculation is set
         
     Returns
     -------
@@ -112,6 +114,29 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     return(laneWait)
 
 def simulations(year, N, lanes, willPrint=False):
+    """
+    simulations(year, N, lanes, willPrint=False)
+    
+    Returns the average, max og total wait time based on multiple simulations in a given year. Will also print the data if specified.
+    
+    Parameters
+    ----------
+    years : int
+        Last year shown on the plot
+    N: int
+        Number of simulations to run each year
+    lanes : int
+        Number of lanes at the airfield
+    willPrint : bool
+        Whether to print the data or not
+        
+    Returns
+    ----------
+    out : list
+        Returns (total wait time, the average wait time, the max wait time) in a list 
+    (optional) : str
+        Prints the calculated data with to decimal points
+    """
 
     totalWait = 0
     averageWait = 0
@@ -145,9 +170,34 @@ def simulations(year, N, lanes, willPrint=False):
 
 
 def plotGrowth(years, sims, lanes, timeStyle):
+    """
+    plotGrowth(years, sims, lanes, timeStyle)
+    
+    Plots the graphs using the given parameters. With Years on the x-axis, and timeStyle on the y-axis 
+    
+    Parameters
+    ----------
+    years : int
+        Last year shown on the plot
+    sims: int
+        Number of simulations to run each year
+    lanes : int
+        Number of lanes at the airfield
+    timeStyle : str
+        What type of data to be plotted along the y axis.
+    Total => Total wait time
+    Average => Average wait time
+    Maximum => Maximum wait time 
+        
+    Returns
+    ----------
+    out : figure
+        Saves the figure as png in the same folder as the program.
+    """
     
     data = []
     
+    # Handles plot of average wait as function of time
     if timeStyle == "average" or timeStyle == "avg":
         
         for i in range(years):
@@ -161,6 +211,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.ylabel("Average wait in seconds")
         plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))
     
+    # Handles plot of maximum wait as function of time
     elif timeStyle == "maximum" or timeStyle == "max":
         
         for i in range(years):
@@ -174,6 +225,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.ylabel("Max wait in seconds")
         plt.savefig("SimMax_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))    
     
+    # Handles plot of total wait as function of time
     elif timeStyle == "total" or timeStyle == "sum":
         
         for i in range(years):
@@ -187,11 +239,12 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.ylabel("Total wait in seconds")
         plt.savefig("SimTotal_year{:d}_sims{:d}_lane{:d}.png".format(years,sims,lanes))  
     
+    # Error handeling
     else:
-        print("'data' not permitted. Use average, maximum or total")
+        print("'TimeStyle' not permitted. Use average, maximum or total")
 
         
-        
+# Prints usage-description        
 if sys.argv[1] == "?":
     print("""
 Either prints the wait time data for one year if plot=True or saves a plot of the growth over multiple years
@@ -222,12 +275,15 @@ Example 2:
 >>>Python_code.py 20 35 2 True
 """)
 
+# Handles arguments if a single datapoint is specified
 elif eval(sys.argv[4]) == True:
     try:
         simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
     except:
         print("Something went wrong! Please try the command again")
-else:
+
+# Handles arguments if multiple datapoints is specified
+else: 
     try:
 
         plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
