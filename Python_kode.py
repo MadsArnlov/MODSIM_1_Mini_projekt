@@ -139,7 +139,7 @@ def simulations(year, N, lanes, willPrint=False):
         Returns (total wait time, the average wait time, the max wait time)
         in a list
     (optional) : str
-        Prints the calculated data with to decimal points
+        Prints the calculated data with two decimal points
     """
 
     totalWait = 0
@@ -207,7 +207,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
     if timeStyle == "average" or timeStyle == "avg":
 
         for i in range(years):
-            data.append(simulations(sims, lanes, year=i)[1])
+            data.append(simulations(i, sims, lanes)[1])
 
         plt.figure(figsize=(12, 9))
         plt.axhline(y=36400, color="red")
@@ -251,49 +251,50 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
 
 # Prints usage-description
-if sys.argv[1] == "?":
-    print("""
-Either prints the wait time data for one year if plot=True
-or saves a plot of the growth over multiple years
-
-Parameters
-----------
-Years: int
-    What year the calculation should terminate
-Simulations : int
-    Number of simulations to be run for each year.
-Lanes : int
-    Number of lanes to be simulated.
-TimeStyle : str
-    What type of data to be plotted along the y axis.
-    Total => Total wait time
-    Average => Average wait time
-    Maximum => Maximum wait time
-Plot : bool
-    Defines whether or not to plot the data or to return a single year
-
-Usage:
->>>name.py Years Simumlations Lanes TimeStyle/Plot
-
-Example 1:
->>>Python_code.py 20 35 2 total
-
-Example 2:
->>>Python_code.py 20 35 2 True
-""")
-
-# Handles arguments if a single datapoint is specified
-elif eval(sys.argv[4]) is True:
-    try:
-        simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
-    except:
-        print("Something went wrong! Please try the command again")
-
-# Handles arguments if multiple datapoints is specified
-else:
-    try:
-
-        plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
-        print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
-    except:
-        print("Something went wrong! Please try the command again")
+if len(sys.argv) > 1:
+    if sys.argv[1] == "?":
+        print("""
+    Either prints the wait time data for one year if plot=True
+    or saves a plot of the growth over multiple years
+    
+    Parameters
+    ----------
+    Years: int
+        What year the calculation should terminate
+    Simulations : int
+        Number of simulations to be run for each year.
+    Lanes : int
+        Number of lanes to be simulated.
+    TimeStyle : str
+        What type of data to be plotted along the y axis.
+        Total => Total wait time
+        Average => Average wait time
+        Maximum => Maximum wait time
+    Plot : bool
+        Defines whether or not to plot the data or to return a single year
+    
+    Usage:
+    >>>name.py Years Simumlations Lanes TimeStyle/Plot
+    
+    Example 1:
+    >>>Python_code.py 20 35 2 total
+    
+    Example 2:
+    >>>Python_code.py 20 35 2 True
+    """)
+    
+    # Handles arguments if a single datapoint is specified
+    elif eval(sys.argv[4]) is True:
+        try:
+            simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
+        except:
+            print("Something went wrong! Please try the command again")
+    
+    # Handles arguments if multiple datapoints is specified
+    else:
+        try:
+    
+            plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
+            print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
+        except:
+            print("Something went wrong! Please try the command again")
