@@ -210,7 +210,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[1])
 
         plt.figure(figsize=(12, 9))
-        plt.axhline(y=36400, color="red")
+        plt.axhline(y=36400/(200*1.05**years), color="red")
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
@@ -221,7 +221,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
     elif timeStyle == "maximum" or timeStyle == "max":
 
         for i in range(years):
-            data.append(simulations(sims, lanes, year=i)[2])
+            data.append(simulations(i, sims, lanes)[2])
 
         plt.figure(figsize=(12, 9))
         plt.axhline(y=36400, color="red")
@@ -235,7 +235,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
     elif timeStyle == "total" or timeStyle == "sum":
 
         for i in range(years):
-            data.append(simulations(sims, lanes, year=i)[0])
+            data.append(simulations(i, sims, lanes)[0])
 
         plt.figure(figsize=(12, 9))
         plt.axhline(y=36400, color="red")
