@@ -169,7 +169,7 @@ def simulations(year, N, lanes, willPrint=False):
         return(totalWait/N, averageWait/N, maxWait/N)
 
     except:
-        print("""Can"t calculate that many years in the future.
+        print("""Can't calculate that many years in the future.
               Please try again with a smaller number""")
 
 
