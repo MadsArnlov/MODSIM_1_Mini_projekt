@@ -145,7 +145,8 @@ def simulations(year, N, lanes, willPrint=False):
     totalWait = 0
     averageWait = 0
     maxWait = 0
-    planes = int(200*1.05**year)
+    landings = np.loadtxt('duration.dat', dtype=int, delimiter=',')
+    planes = int(landings.sum(axis=0)[2]*1.05**year)
 
     try:
         for n in range(N):
@@ -256,7 +257,7 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
     print("""
     Either prints the wait time data for one year if plot=True
     or saves a plot of the growth over multiple years
-    
+
     Parameters
     ----------
     Years: int
@@ -272,17 +273,17 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
         Maximum => Maximum wait time
     Plot : bool
         Defines whether or not to plot the data or to return a single year
-    
+
     Usage:
     >>>name.py Years Simumlations Lanes TimeStyle/Plot
-    
+
     Example 1:
     >>>Python_code.py 20 35 2 total
-    
+
     Example 2:
     >>>Python_code.py 20 35 2 True
     """)
-    
+
 # Handles arguments if a single datapoint is specified
 elif sys.argv[4].lower() == "true":
     try:
