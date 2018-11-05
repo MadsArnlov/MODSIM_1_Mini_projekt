@@ -156,7 +156,7 @@ def simulations(year, N, lanes, willPrint=False):
             averageWait += waitAvg
             maxWait += waitMax
 
-        if willPrint is True:
+        if willPrint:
 
             if totalWait/N <= 86400:
                 print("Total waittime: {:.2f} seconds".format(totalWait/N))
