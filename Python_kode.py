@@ -211,11 +211,12 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[1])
 
         plt.figure(figsize=(12, 9))
-        plt.axhline(y=36400/(200*1.05**years), color="red")
+        plt.axhline(y=36400/(200*1.05**years), color="red", label='Seconds in a day')
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Average wait in seconds")
+        plt.legend()
         plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
 
     # Handles plot of maximum wait as function of time
