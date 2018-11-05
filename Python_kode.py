@@ -239,7 +239,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[0])
 
         plt.figure(figsize=(12, 9))
-        plt.axhline(y=36400, color="red", label='Seconds per day')
+        plt.axhline(y=86400, color="red", label='Seconds per day')
         plt.plot(data, 'o-')
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
