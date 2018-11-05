@@ -237,13 +237,8 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[0])
 
         plt.figure(figsize=(12, 9))
-<<<<<<< HEAD
         plt.axhline(y=86400, color="red", label='Seconds per day')
         plt.plot(data, "o-", label="Total wait time per year")
-=======
-        plt.axhline(y=86400, color="red", label="Seconds per day")
-        plt.plot(data, "o-")
->>>>>>> 92595331d79e332425bef18cc0f7335c596fbcb4
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Total wait in seconds")
@@ -252,7 +247,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
     # Error handeling
     else:
-        print(""TimeStyle" not permitted. Use average, maximum or total")
+        print("'TimeStyle' not permitted. Use average, maximum or total")
 
 
 # Prints usage-description
