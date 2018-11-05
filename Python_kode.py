@@ -216,6 +216,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.xlabel("Years")
         plt.ylabel("Average wait in seconds")
         plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
+        plt.show()
 
     # Handles plot of maximum wait as function of time
     elif timeStyle == "maximum" or timeStyle == "max":
@@ -229,6 +230,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.xlabel("Years")
         plt.ylabel("Max wait in seconds")
         plt.savefig("SimMax_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
+        plt.show()
 
     # Handles plot of total wait as function of time
     elif timeStyle == "total" or timeStyle == "sum":
@@ -244,6 +246,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.ylabel("Total wait in seconds")
         plt.legend()
         plt.savefig("SimTotal_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
+        plt.show()
 
     # Error handeling
     else:
