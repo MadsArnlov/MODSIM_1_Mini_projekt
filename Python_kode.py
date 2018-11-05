@@ -202,6 +202,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
     """
 
     data = []
+    timeStyle = timeStyle.lower()
 
     # Handles plot of average wait as function of time
     if timeStyle == "average" or timeStyle == "avg":
