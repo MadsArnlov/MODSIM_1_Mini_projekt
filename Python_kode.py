@@ -286,7 +286,7 @@ if len(sys.argv) > 1:
     """)
     
     # Handles arguments if a single datapoint is specified
-    elif sys.argv[4] is True:
+    elif sys.argv[4].lower() == "true":
         try:
             simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
         except:
