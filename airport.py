@@ -91,26 +91,26 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     """
 
     # Keeps track of avalible lanes
-    queWait = [0 for i in range(lanes)]
+    queueWait = [0 for i in range(lanes)]
     laneWait = []
 
     # Loops through all planes
     for i in range(len(arrivalTimes)):
-            queWait -= arrivalTimes[i]
+            queueWait -= arrivalTimes[i]
 
             # Makes sure no negative wait time
-            for j in range(len(queWait)):
+            for j in range(len(queueWait)):
 
-                if queWait[j] < 0:
-                    queWait[j] = 0
+                if queueWait[j] < 0:
+                    queueWait[j] = 0
 
             # Keeps track of the time waited
-            laneWait.append(min(queWait))
+            laneWait.append(min(queueWait))
 
             # Updates the lane that is currently in use with the new waittime
-            queWait[queWait.argmin()] += landingTimes[i]
+            queueWait[queueWait.argmin()] += landingTimes[i]
 
-    return(laneWait)
+    return laneWait
 
 
 def simulations(year, N, lanes, willPrint=False):
@@ -166,7 +166,7 @@ def simulations(year, N, lanes, willPrint=False):
                 print("Can't fit all planes into one day!")
                 print("Hours exceeding the daily maximum", ((totalWait/N) - 86400)/60/60)
 
-        return(totalWait/N, averageWait/N, maxWait/N)
+        return totalWait/N, averageWait/N, maxWait/N
 
     except:
         print("""Can't calculate that many years in the future.
