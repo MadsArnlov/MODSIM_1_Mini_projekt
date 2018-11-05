@@ -117,7 +117,7 @@ def simulations(year, N, lanes, willPrint=False):
     """
     simulations(year, N, lanes, willPrint=False)
 
-    Returns the average, max og total wait time based on multiple simulations
+    Returns the average, max and total wait time based on multiple simulations
     in a given year. Will also print the data if specified.
 
     Parameters
@@ -143,8 +143,11 @@ def simulations(year, N, lanes, willPrint=False):
     totalWait = 0
     averageWait = 0
     maxWait = 0
+    arrivalSum = 0
     landings = np.loadtxt("duration.dat", dtype=int, delimiter=",")
     planes = int(landings.sum(axis=0)[2]*1.05**year)
+    lastWait = waitTime(lanes, arrivalTimes(planes, year), landingTimes(planes))[-1]
+    lastLanding = landingTimes(planes)[-1]
 
     try:
         for n in range(N):
@@ -152,19 +155,20 @@ def simulations(year, N, lanes, willPrint=False):
             waitTotal = sum(waitLane)
             waitAvg = sum(waitLane)/len(waitLane)
             waitMax = max(waitLane)
+            arrivalSum += sum(arrivalTimes(planes, year))
             totalWait += waitTotal
             averageWait += waitAvg
             maxWait += waitMax
 
         if willPrint:
 
-            if totalWait/N <= 86400:
-                print("Total waittime: {:.2f} seconds".format(totalWait/N))
-                print("Average waittime: {:.2f} seconds".format(averageWait/N))
-                print("Maximum waittime: {:.2f} seconds".format(maxWait/N))
+            if arrivalSum/N + lastWait + lastLanding <= 86400:
+                print("Total wait time: {:.2f} seconds".format(totalWait/N))
+                print("Average wait time: {:.2f} seconds".format(averageWait/N))
+                print("Maximum wait time: {:.2f} seconds".format(maxWait/N))
             else:
                 print("Can't fit all planes into one day!")
-                print("Hours exceeding the daily maximum", ((totalWait/N) - 86400)/60/60)
+                print("Hours exceeding the daily maximum", ((totalWait + arrivalSum/N) - 86400)/60/60)
 
         return totalWait/N, averageWait/N, maxWait/N
 
@@ -211,9 +215,11 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
         plt.figure(figsize=(12, 9))
         plt.plot(data, "o-")
+        plt.axhline(y=300, color="red", label="Tolerance in seconds")
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Average wait in seconds")
+        plt.legend()
         plt.savefig("SimAvg_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
 
     # Handles plot of maximum wait as function of time
