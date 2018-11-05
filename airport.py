@@ -159,12 +159,12 @@ def simulations(year, N, lanes, willPrint=False):
         if willPrint is True:
 
             if totalWait/N <= 86400:
-                print("Total Ventetid: {:.2f} sekunder".format(totalWait/N))
-                print("Gennemsnitlig Ventetid: {:.2f} sekunder".format(averageWait/N))
-                print("Maksimal Ventetid: {:.2f} sekunder".format(maxWait/N))
+                print("Total waittime: {:.2f} seconds".format(totalWait/N))
+                print("Average waittime: {:.2f} seconds".format(averageWait/N))
+                print("Maximum waittime: {:.2f} seconds".format(maxWait/N))
             else:
-                print("Kan ikke nå alle fly på en dag")
-                print("Timer for meget", ((totalWait/N) - 86400)/60/60)
+                print("Can't fit all planes into one day!")
+                print("Hours exceeding the daily maximum", ((totalWait/N) - 86400)/60/60)
 
         return(totalWait/N, averageWait/N, maxWait/N)
 
@@ -273,13 +273,13 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
         Defines whether or not to plot the data or to return a single year
 
     Usage:
-    >>>name.py Years Simumlations Lanes TimeStyle/Plot
+    >>> name.py Years Simumlations Lanes TimeStyle/Plot
 
     Example 1:
-    >>>Python_code.py 20 35 2 total
+    >>> airport.py 20 35 2 total
 
     Example 2:
-    >>>Python_code.py 20 35 2 True
+    >>> airport.py 20 35 2 True
     """)
 
 # Handles arguments if a single datapoint is specified
