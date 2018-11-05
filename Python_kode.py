@@ -239,11 +239,11 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
         plt.figure(figsize=(12, 9))
         plt.axhline(y=86400, color="red", label='Seconds per day')
-        plt.plot(data, "o-")
+        plt.plot(data, "o-", label="Total wait time per year")
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Total wait in seconds")
-        plt.legend()
+        plt.legend(fontsize="large")
         plt.savefig("SimTotal_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
 
     # Error handeling
