@@ -211,7 +211,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[1])
 
         plt.figure(figsize=(12, 9))
-        plt.plot(data, 'o-')
+        plt.plot(data, "o-")
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Average wait in seconds")
@@ -224,7 +224,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[2])
 
         plt.figure(figsize=(12, 9))
-        plt.plot(data, 'o-')
+        plt.plot(data, "o-")
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Max wait in seconds")
@@ -238,7 +238,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
         plt.figure(figsize=(12, 9))
         plt.axhline(y=86400, color="red", label='Seconds per day')
-        plt.plot(data, 'o-')
+        plt.plot(data, "o-")
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Total wait in seconds")
@@ -251,9 +251,8 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
 
 # Prints usage-description
-if len(sys.argv) > 1:
-    if sys.argv[1] == "?":
-        print("""
+if len(sys.argv) == 1 or sys.argv[1] == "?":
+    print("""
     Either prints the wait time data for one year if plot=True
     or saves a plot of the growth over multiple years
     
@@ -283,18 +282,18 @@ if len(sys.argv) > 1:
     >>>Python_code.py 20 35 2 True
     """)
     
-    # Handles arguments if a single datapoint is specified
-    elif sys.argv[4].lower() == "true":
-        try:
-            simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
-        except:
-            print("Something went wrong! Please try the command again")
-    
-    # Handles arguments if multiple datapoints is specified
-    else:
-        try:
-    
-            plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
-            print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
-        except:
-            print("Something went wrong! Please try the command again")
+# Handles arguments if a single datapoint is specified
+elif sys.argv[4].lower() == "true":
+    try:
+        simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
+    except:
+        print("Something went wrong! Please try the command again")
+
+# Handles arguments if multiple datapoints is specified
+else:
+    try:
+
+        plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
+        print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
+    except:
+        print("Something went wrong! Please try the command again")
