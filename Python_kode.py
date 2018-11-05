@@ -9,7 +9,7 @@ def arrivalTimes(planes, year):
     arrivalTimes(planes, years)
 
     Returns arrival times for planes with the distribution from
-    the file 'interarrival.dat'
+    the file "interarrival.dat"
 
     Parameters
     ----------
@@ -24,8 +24,7 @@ def arrivalTimes(planes, year):
         One dimentional array filled with arrival times of planes
     """
 
-    arrivals = np.loadtxt('interarrival.dat', dtype=int, delimiter=',')
-
+    arrivals = np.loadtxt("interarrival.dat", dtype=int, delimiter=",")
     probList = []
     nrPlanes = arrivals.sum(axis=0)[2]
     maxTime = 0
@@ -35,16 +34,16 @@ def arrivalTimes(planes, year):
         prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
         probList += prob
         maxTime += interval
+
     return np.random.choice(maxTime, planes, p=probList)
 
 
 def landingTimes(planes):
-
     """
     landingTimes(planes)
 
     Returns landing times for planes with the distribution from
-    the file 'duration.dat' as an array
+    the file "duration.dat" as an array
 
     Parameters
     ----------
@@ -57,7 +56,7 @@ def landingTimes(planes):
         One dimentional array filled with landing times of planes
     """
 
-    landings = np.loadtxt('duration.dat', dtype=int, delimiter=',')
+    landings = np.loadtxt("duration.dat", dtype=int, delimiter=",")
     probList = []
     nrPlanes = landings.sum(axis=0)[2]
     maxTime = landings[-1][1] + 1
@@ -71,7 +70,6 @@ def landingTimes(planes):
 
 
 def waitTime(lanes, arrivalTimes, landingTimes):
-
     """
     waitTime(lanes, arrivalTimes, landingTimes)
 
@@ -145,7 +143,8 @@ def simulations(year, N, lanes, willPrint=False):
     totalWait = 0
     averageWait = 0
     maxWait = 0
-    planes = int(200*1.05**year)
+    landings = np.loadtxt("duration.dat", dtype=int, delimiter=",")
+    planes = int(landings.sum(axis=0)[2]*1.05**year)
 
     try:
         for n in range(N):
@@ -170,7 +169,7 @@ def simulations(year, N, lanes, willPrint=False):
         return(totalWait/N, averageWait/N, maxWait/N)
 
     except:
-        print("""Can't calculate that many years in the future.
+        print("""Can"t calculate that many years in the future.
               Please try again with a smaller number""")
 
 
@@ -238,8 +237,13 @@ def plotGrowth(years, sims, lanes, timeStyle):
             data.append(simulations(i, sims, lanes)[0])
 
         plt.figure(figsize=(12, 9))
+<<<<<<< HEAD
         plt.axhline(y=86400, color="red", label='Seconds per day')
         plt.plot(data, "o-", label="Total wait time per year")
+=======
+        plt.axhline(y=86400, color="red", label="Seconds per day")
+        plt.plot(data, "o-")
+>>>>>>> 92595331d79e332425bef18cc0f7335c596fbcb4
         plt.title("Years simulated: {:d}\n Simulations per year: {:d}\n Lanes: {:d}".format(years, sims, lanes))
         plt.xlabel("Years")
         plt.ylabel("Total wait in seconds")
@@ -248,7 +252,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
 
     # Error handeling
     else:
-        print("'TimeStyle' not permitted. Use average, maximum or total")
+        print(""TimeStyle" not permitted. Use average, maximum or total")
 
 
 # Prints usage-description
@@ -256,7 +260,7 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
     print("""
     Either prints the wait time data for one year if plot=True
     or saves a plot of the growth over multiple years
-    
+
     Parameters
     ----------
     Years: int
@@ -272,17 +276,17 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
         Maximum => Maximum wait time
     Plot : bool
         Defines whether or not to plot the data or to return a single year
-    
+
     Usage:
     >>>name.py Years Simumlations Lanes TimeStyle/Plot
-    
+
     Example 1:
     >>>Python_code.py 20 35 2 total
-    
+
     Example 2:
     >>>Python_code.py 20 35 2 True
     """)
-    
+
 # Handles arguments if a single datapoint is specified
 elif sys.argv[4].lower() == "true":
     try:
