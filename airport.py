@@ -34,7 +34,7 @@ def arrivalTimes(planes, year):
         prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
         probList += prob
         maxTime += interval
-        
+
     return np.random.choice(maxTime, planes, p=probList)
 
 
@@ -231,7 +231,6 @@ def plotGrowth(years, sims, lanes, timeStyle):
         plt.xlabel("Years")
         plt.ylabel("Max wait in seconds")
         plt.savefig("SimMax_year{:d}_sims{:d}_lane{:d}.png".format(years, sims, lanes))
-
 
     # Handles plot of total wait as function of time
     elif timeStyle == "total" or timeStyle == "sum":
