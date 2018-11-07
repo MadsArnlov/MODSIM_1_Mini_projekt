@@ -2,6 +2,7 @@ import numpy as np
 import sys
 import os
 from matplotlib import pyplot as plt
+import time
 
 
 def arrivalTimes(planes, year):
@@ -252,6 +253,7 @@ def plotGrowth(years, sims, lanes, timeStyle):
         print("'TimeStyle' not permitted. Use average, maximum or total")
 
 
+
 # Prints usage-description
 if len(sys.argv) == 1 or sys.argv[1] == "?":
     print("""
@@ -287,15 +289,20 @@ if len(sys.argv) == 1 or sys.argv[1] == "?":
 # Handles arguments if a single datapoint is specified
 elif sys.argv[4].lower() == "true":
     try:
+        start = time.time()
         simulations(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), willPrint=True)
+        stop = time.time()
+        print("It took:", stop-start, "seconds to calculate")
     except:
         print("Something went wrong! Please try the command again")
 
 # Handles arguments if multiple datapoints is specified
 else:
     try:
-
+        start = time.time()
         plotGrowth(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4].lower())
         print("Plot has been created in: {:s}".format(os.path.dirname(sys.argv[0])))
+        stop = time.time()
+        print("It took:", stop-start, "seconds to plot")
     except:
         print("Something went wrong! Please try the command again")
