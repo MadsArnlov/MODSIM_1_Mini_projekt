@@ -30,12 +30,57 @@ def arrivalTimes(planes, year):
     maxTime = 0
 
     for line in arrivals:
-        interval = int((line[1] - line[0] + 1)*(1/1.05**year))
+        interval = int((line[1] - line[0] + 1)/1.05**year)
         prob = [(line[2]/nrPlanes)/interval for i in range(interval)]
         probList += prob
         maxTime += interval
 
     return np.random.choice(maxTime, planes, p=probList)
+
+
+def arrivalTest(sims, year):
+    """
+    arrivalTest(sims, year)
+
+    Plots two histograms for arrivalTimes, showing the distribution of planes
+    to a given interval of arrival times.
+
+    The function is used to validate the generated ndarray of the function:
+        arrivalTimes(planes, year)
+
+    Parameters
+    ----------
+    sims : int
+        Number of simulations to run
+    year : int
+        What year the calculation is set
+    
+    Returns
+    -------
+    out : plot
+        Two bar plots of the distribution and error
+    """
+
+    arrivals = np.loadtxt("interarrival.dat", dtype=int, delimiter=",")
+    planes = int((arrivals.sum(axis=0)[2])*1.05**year)
+    m = np.zeros(len(arrivals))
+    for simulation in range(sims):
+        x = arrivalTimes(planes, year)
+        n, bins = np.histogram(x, len(arrivals), range=(0, arrivals[-1][1] + 1))
+        m += n/sims
+    widthBar = (arrivals[0][1] - arrivals[0][0] + 1)/1.05**year
+    plt.figure(figsize=(12, 9))
+    plt.bar(bins[:-1], m, width=widthBar, color="blue", align="edge", alpha=0.7, edgecolor="black")
+    plt.ylabel("Amount of planes", fontsize=18)
+    plt.xlabel("Arrival time", fontsize=18)
+    plt.savefig("avgDist.pdf")
+    plt.show()
+    plt.figure(figsize=(12, 9))
+    plt.bar(bins[:-1], arrivals[:, 2] - m, width=widthBar, color="green", align="edge", alpha=0.7, edgecolor="black")
+    plt.ylabel("Absolute difference", fontsize=18)
+    plt.xlabel("Arrival time", fontsize=18)
+    plt.savefig("deviationDist.pdf")
+    plt.show()
 
 
 def landingTimes(planes):
@@ -91,7 +136,7 @@ def waitTime(lanes, arrivalTimes, landingTimes):
     """
 
     # Keeps track of avalible lanes
-    queueWait = [0 for i in range(lanes)]
+    queueWait = np.zeros(lanes)
     laneWait = []
 
     # Loops through all planes
