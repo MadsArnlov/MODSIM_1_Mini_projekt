@@ -67,7 +67,7 @@ def arrivalTest(sims, year):
     m = np.zeros(len(arrivals))
     for simulation in range(sims):
         x = arrivalTimes(planes, year)
-        n, bins = np.histogram(x, len(arrivals), range=(0, arrivals[-1][1] + 1))
+        n, bins = np.histogram(x, len(arrivals), range=(0, int((arrivals[0][1]+1)*20/1.05**year)))
         m += n/sims
     widthBar = (arrivals[0][1] - arrivals[0][0] + 1)/1.05**year
     plt.figure(figsize=(12, 9))
@@ -77,7 +77,7 @@ def arrivalTest(sims, year):
     plt.savefig("avgDist.pdf")
     plt.show()
     plt.figure(figsize=(12, 9))
-    plt.bar(bins[:-1], arrivals[:, 2] - m, width=widthBar, color="green", align="edge", alpha=0.7, edgecolor="black")
+    plt.bar(bins[:-1], (arrivals[:, 2]/200)*planes - m, width=widthBar, color="green", align="edge", alpha=0.7, edgecolor="black")
     plt.ylabel("Absolute difference", fontsize=18)
     plt.xlabel("Arrival time", fontsize=18)
     plt.savefig("deviationDist.pdf")
