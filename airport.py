@@ -64,20 +64,20 @@ def arrivalTest(sims, year):
 
     arrivals = np.loadtxt("interarrival.dat", dtype=int, delimiter=",")
     planes = int((arrivals.sum(axis=0)[2])*1.05**year)
-    m = np.zeros(len(arrivals))
+    simulatedProb = np.zeros(len(arrivals))
     for simulation in range(sims):
-        x = arrivalTimes(planes, year)
-        n, bins = np.histogram(x, len(arrivals), range=(0, int((arrivals[0][1]+1)*20/1.05**year)))
-        m += n/sims
+        input_data = arrivalTimes(planes, year)
+        probability, bins = np.histogram(input_data, len(arrivals), range=(0, int((arrivals[0][1]+1)*20/1.05**year)))
+        simulatedProb += probability/sims
     widthBar = (arrivals[0][1] - arrivals[0][0] + 1)/1.05**year
     plt.figure(figsize=(12, 9))
-    plt.bar(bins[:-1], m, width=widthBar, color="blue", align="edge", alpha=0.7, edgecolor="black")
+    plt.bar(bins[:-1], simulatedProb, width=widthBar, color="blue", align="edge", alpha=0.7, edgecolor="black")
     plt.ylabel("Amount of planes", fontsize=18)
     plt.xlabel("Arrival time", fontsize=18)
     plt.savefig("avgDist.pdf")
     plt.show()
     plt.figure(figsize=(12, 9))
-    plt.bar(bins[:-1], (arrivals[:, 2]/200)*planes - m, width=widthBar, color="green", align="edge", alpha=0.7, edgecolor="black")
+    plt.bar(bins[:-1], (arrivals[:, 2]/200)*planes - simulatedProb, width=widthBar, color="green", align="edge", alpha=0.7, edgecolor="black")
     plt.ylabel("Absolute difference", fontsize=18)
     plt.xlabel("Arrival time", fontsize=18)
     plt.savefig("deviationDist.pdf")
